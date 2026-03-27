@@ -49,7 +49,9 @@ pipeline {
         stage('Docker-Compose') {
             steps{
                 sh'''
-                docker compose up
+                docker compose down -d
+                sleep 20
+                docker compose up -d
                 '''
             }
         }
