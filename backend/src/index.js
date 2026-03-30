@@ -16,5 +16,16 @@ mongoose.connect(mongoURI)
 // Routes Middleware
 app.use('/api/tasks', taskRoutes);
 
+app.get("/health", (req, res) => {
+    res.status(200).send("OK");
+})
+
+app.get("/ready", (req, res) => {
+    if (mongoose.connection.readyState === 1) {
+        res.status(200).send("Ready");
+    } else {
+        res.status(500).send("NOT READY");
+    }
+})
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));  
