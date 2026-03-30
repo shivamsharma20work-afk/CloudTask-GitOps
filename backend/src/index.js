@@ -16,6 +16,14 @@ mongoose.connect(mongoURI)
 // Routes Middleware
 app.use('/api/tasks', taskRoutes);
 
+const client = require('prom-client');
+client.collectDefaultMetrics();
+
+app.get('/metrics', async (req,res) => {
+    res.set('Content-Type', client.register.contentType);
+    res.end(await client.register.metrics());
+})
+
 app.get("/health", (req, res) => {
     res.status(200).send("OK");
 })
